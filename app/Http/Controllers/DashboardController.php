@@ -8,6 +8,8 @@ use App\Models\Galeri;
 use App\Models\Pengajar;
 use App\Models\ProfilAlumni;
 use App\Models\Pengumuman;
+use App\Models\Kategori;
+
 
 class DashboardController extends Controller
 {
@@ -18,13 +20,15 @@ class DashboardController extends Controller
         $jumlahPengajar     = Pengajar::count();
         $jumlahAlumni       = ProfilAlumni::count();
         $jumlahPengumuman   = Pengumuman::count();
+        $jumlahKategori     = Kategori::count();
 
             return view('admin.dashboard', compact(
                 'jumlahKelas',
                 'jumlahGaleri',
                 'jumlahPengajar',
                 'jumlahAlumni',
-                'jumlahPengumuman'
+                'jumlahPengumuman',
+                'jumlahKategori'
             ));
     }
 }

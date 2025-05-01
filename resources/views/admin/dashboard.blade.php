@@ -27,6 +27,13 @@
     /* Add some spacing between the cards */
     .small-box {
         margin-bottom: 20px; /* Add bottom margin */
+        transition: transform 0.3s ease; /* Add transition for smooth scaling */
+    }
+
+    /* Hover effect for small-box */
+    .small-box:hover {
+        transform: scale(1.05); /* Scale up on hover */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
     }
 
     /* Add custom padding to the row inside the container */
@@ -39,6 +46,10 @@
     @media (max-width: 768px) {
         .small-box {
             margin-bottom: 15px; /* Less space between cards on smaller screens */
+        }
+        .content-wrapper {
+            padding-left: 10px;  /* Reduce padding on smaller screens */
+            padding-right: 10px;
         }
     }
   </style>
@@ -140,18 +151,28 @@
                   </a>
               </div>
           </div>
+
+            <!-- Kategori -->
+            <div class="col-lg-3 col-md-6 col-12">
+                <div class="small-box bg-warning">
+                    <div class="inner">
+                        <h3>{{ $jumlahKategori }}</h3>
+                        <p>Kategori</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fas fa-tags"></i> <!-- Ikon Kategori -->
+                    </div>
+                    <a href="{{ route('admin.kategori.index') }}" class="small-box-footer">
+                        More info <i class="fas fa-arrow-circle-right"></i>
+                    </a>
+                </div>
+            </div>
       </div>
     </div>
   </div>
   <!-- /.content-wrapper -->
 
-  <footer class="main-footer">
-    <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong>
-    All rights reserved.
-    <div class="float-right d-none d-sm-inline-block">
-      <b>Version</b> 3.2.0
-    </div>
-  </footer>
+  @include('admin.footer')
 
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">

@@ -83,7 +83,7 @@
 
                     <div class="d-flex justify-content-end">
                         <button type="submit" class="btn btn-primary me-2">Update</button>
-                        <a href="{{ route('admin.pengumuman.index') }}" class="btn btn-secondary">Batal</a>
+                        <a href="{{ route('admin.pengumuman.index') }}" class="btn btn-secondary">Cancel</a>
                     </div>
                 </form>
             </div>

@@ -3,123 +3,139 @@
 namespace App\Http\Controllers;
 
 use App\Models\Kelas;
+use App\Models\Kategori;
 use Illuminate\Http\Request;
 
 class KelasController extends Controller
 {
     /**
-     * Display a listing of the resource. (Admin)
+     * Menampilkan daftar semua kelas di admin.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $kelas = Kelas::all(); // Ambil semua data Kelas
-        return view('admin.kelas.index', compact('kelas')); // Kirim data ke view
+        // Ambil semua data Kelas, urutkan dari yang terbaru, gunakan paginasi
+        $kelas = Kelas::latest()->paginate(10);
+        return view('admin.kelas.index', compact('kelas'));
     }
 
     /**
-     * Show the form for creating a new resource. (Admin)
+     * Menampilkan form untuk membuat kelas baru.
      *
      * @return \Illuminate\Http\Response
      */
     public function create()
     {
-        return view('admin.kelas.create'); // Tampilkan form untuk membuat Kelas baru
+        // Ambil semua kategori untuk ditampilkan di dropdown
+        $semua_kategori = Kategori::all();
+        // Tampilkan view 'kelas.create'
+        return view('admin.kelas.create', compact('semua_kategori'));
     }
 
     /**
-     * Store a newly created resource in storage. (Admin)
+     * Menyimpan kelas baru ke database.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        // Validasi data
-        $request->validate([
+        // Validasi data yang masuk dari form
+        $validatedData = $request->validate([
+            'kategori_id' => 'required|exists:kategori,kategori_id', // Pastikan kategori_id ada di tabel kategoris
             'nama_kelas' => 'required|string|max:255',
-            'masa_belajar' => 'required|integer|min:1',
             'harga_pendaftaran' => 'required|numeric|min:0',
             'harga_kursus' => 'required|numeric|min:0',
+            'masa_belajar' => 'required|integer|min:1',
+            'stok' => 'required|integer|min:0',
         ]);
 
-        // Buat Kelas baru
-        Kelas::create($request->all());
+        // Buat Kelas baru menggunakan data yang sudah divalidasi
+        Kelas::create($validatedData);
 
-        // Redirect ke halaman index dengan pesan sukses
-        return redirect()->route('admin.kelas.index')->with('success', 'Kelas berhasil ditambahkan.');
+        // Redirect ke halaman index kelas dengan pesan sukses
+        return redirect()->route('admin.kelas.index')
+                         ->with('success', 'Kelas berhasil ditambahkan.');
     }
 
     /**
-     * Display the specified resource. (Admin)
+     * Menampilkan detail spesifik kelas.
      *
      * @param  \App\Models\Kelas  $kelas
      * @return \Illuminate\Http\Response
      */
-    public function show(Kelas $kelas)
+    public function show(Kelas $kelas) // Menggunakan Route Model Binding
     {
-        return view('Kelas.show', compact('kelas')); // Tampilkan detail kelas
+        // Tampilkan view 'kelas.show' dengan data kelas yang dipilih
+        return view('admin.kelas.show', compact('kelas'));
     }
 
     /**
-     * Show the form for editing the specified resource. (Admin)
+     * Menampilkan form untuk mengedit kelas.
      *
      * @param  \App\Models\Kelas  $kelas
      * @return \Illuminate\Http\Response
      */
-    public function edit(Kelas $kelas)
+    public function edit(Kelas $kelas) // Menggunakan Route Model Binding
     {
-        return view('admin.kelas.edit', compact('kelas')); // Tampilkan form untuk mengedit kelas
+        // Ambil semua kategori untuk ditampilkan di dropdown
+        $semua_kategori = Kategori::all();
+        // Tampilkan view 'kelas.edit' dengan data kelas yang akan diedit dan daftar kategori
+        return view('admin.kelas.edit', compact('kelas', 'semua_kategori'));
     }
 
     /**
-     * Update the specified resource in storage. (Admin)
+     * Memperbarui kelas yang ada di database.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Kelas  $kelas
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Kelas $kelas)
+    public function update(Request $request, Kelas $kelas) // Menggunakan Route Model Binding
     {
-        // Validasi data
-        $request->validate([
+        // Validasi data yang masuk dari form edit
+        $validatedData = $request->validate([
+            'kategori_id' => 'required|exists:kategori,kategori_id',
             'nama_kelas' => 'required|string|max:255',
-            'masa_belajar' => 'required|integer|min:1',
             'harga_pendaftaran' => 'required|numeric|min:0',
             'harga_kursus' => 'required|numeric|min:0',
+            'masa_belajar' => 'required|integer|min:1',
+            'stok' => 'required|integer|min:0',
         ]);
 
-        // Update data kelas
-        $kelas->update($request->all());
+        // Update data kelas yang ada dengan data yang sudah divalidasi
+        $kelas->update($validatedData);
 
-        // Redirect ke halaman index dengan pesan sukses
-        return redirect()->route('admin.kelas.index')->with('success', 'Kelas berhasil diperbarui.');
+        // Redirect ke halaman index kelas dengan pesan sukses
+        return redirect()->route('admin.kelas.index')
+                         ->with('success', 'Kelas berhasil diperbarui.');
     }
 
     /**
-     * Remove the specified resource from storage. (Admin)
+     * Menghapus kelas dari database.
      *
      * @param  \App\Models\Kelas  $kelas
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Kelas $kelas)
+    public function destroy(Kelas $kelas) // Menggunakan Route Model Binding
     {
+        // Hapus data kelas
         $kelas->delete();
 
-        // Redirect ke halaman index dengan pesan sukses
-        return redirect()->route('admin.kelas.index')->with('success', 'Kelas berhasil dihapus.');
+        // Redirect ke halaman index kelas dengan pesan sukses
+        return redirect()->route('admin.kelas.index')
+                         ->with('success', 'Kelas berhasil dihapus.');
     }
 
     /**
-     * Display the specified resource for public viewing. (Public)
+     * Menampilkan daftar semua kelas untuk publik.
      *
-     * @param  \App\Models\Kelas  $Kelas
      * @return \Illuminate\Http\Response
      */
-    public function showPublic(Kelas $Kelas)
+    public function showPublic()
     {
-        $kelas = Kelas::all();
-        return view('Kelas.index', compact('kelas')); // Tampilkan detail Kelas untuk publik
+        $semua_kelas = Kelas::all(); // Ambil semua data kelas
+        return view('Kelas.index', compact('semua_kelas')); // Tampilkan detail kelas untuk publik
     }
 }

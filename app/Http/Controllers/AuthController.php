@@ -44,7 +44,7 @@ class AuthController extends Controller
         if (Auth::user()->isAdmin()) {
             return redirect()->route('admin.dashboard');
         } else {
-            return redirect()->route('welcome');
+            return redirect()->route('user.dashboard');
         }
     }
 
@@ -59,7 +59,7 @@ class AuthController extends Controller
             if (Auth::user()->isAdmin()) {
                 return redirect()->route('admin.dashboard');
             } else {
-                return redirect()->route('welcome');
+                return redirect()->route('user.dashboard');
             }
         }
 

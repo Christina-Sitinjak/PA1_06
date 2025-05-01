@@ -18,7 +18,7 @@
         <main class="content">
             <h1>UNIVERSAL <span> ENGLISH COURSE </span></h1>
             {{-- CTA bisa diarahkan ke halaman lain jika perlu, atau dihapus --}}
-            <a href="{{ route('login') }}" class="cta">Login/Daftar</a>
+            <a href="{{ route('login') }}" class="cta">Pesan Sekarang</a>
         </main>
     </section>
     <!-- Hero section end -->
@@ -73,5 +73,82 @@
     {{-- Pastikan path ke script.js benar --}}
     <script src="{{URL::asset('js/script.js')}}"></script>
 </body>
+
+<style>
+    /* Pengaturan untuk section pengumuman */
+#pengumuman-terbaru {
+    background-color: #000; /* Latar belakang hitam */
+    padding: 60px 20px;
+}
+
+#pengumuman-terbaru h2 {
+    text-align: center;
+    color: #f5f5dc; /* Teks coklat susu terang */
+    font-size: 36px;
+    margin-bottom: 40px;
+}
+
+#pengumuman-terbaru h2 span {
+    color: #a67b5b; /* Coklat susu soft untuk span */
+}
+
+/* Kontainer untuk tabel */
+#pengumuman-terbaru .content {
+    max-width: 1200px;
+    margin: auto;
+    overflow-x: auto;
+    background: #fdf6ee; /* Coklat susu sangat lembut */
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(166, 123, 91, 0.2);
+    padding: 20px;
+}
+
+/* Styling untuk tabel */
+#pengumuman-terbaru table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+#pengumuman-terbaru th, #pengumuman-terbaru td {
+    padding: 16px 20px;
+    text-align: center; /* Menempatkan semua teks di tengah */
+    color: #5c4033; /* Teks coklat */
+    font-size: 15px;
+    border-bottom: 1px solid #e0c9a6;
+}
+
+#pengumuman-terbaru th {
+    background-color: #e6d3bc; /* Header tabel coklat susu sedikit lebih tua */
+    font-size: 16px;
+    font-weight: bold;
+    color: #4b3621;
+}
+
+#pengumuman-terbaru tr:last-child td {
+    border-bottom: none;
+}
+
+/* Efek hover pada baris tabel */
+#pengumuman-terbaru tr:hover {
+    background-color: #f8efe4; /* Efek hover soft */
+    transition: background-color 0.3s ease;
+}
+
+#pengumuman-terbaru td[colspan="3"] {
+    text-align: center;
+    font-style: italic;
+    color: #7b5e48;
+}
+
+/* Responsif pada layar kecil */
+@media (max-width: 768px) {
+    #pengumuman-terbaru th, #pengumuman-terbaru td {
+        padding: 12px 10px;
+        font-size: 14px;
+    }
+}
+
+</style>
 
 </html>

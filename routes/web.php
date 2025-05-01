@@ -6,17 +6,20 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AdminDashboardController;
+use App\Http\Controllers\UserDashboardController;
 use App\Http\Controllers\KelasController;
 use App\Http\Controllers\GaleriController;
 use App\Http\Controllers\PengajarController;
 use App\Http\Controllers\ProfilAlumniController;
 use App\Http\Controllers\PengumumanController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\KategoriController;
+use App\Http\Controllers\UserPesanKelasController;
+use App\Http\Controllers\DaftarPemesananController;
 
 Route::get('/', function () {return view('welcome');})->name('welcome');
 Route::get('/sistem-belajar', function () {return view('Sistem Belajar.index');})->name('sistembelajar');
 Route::get('/jadwal-belajar', function () {return view('Jadwal Belajar.index');})->name('jadwalbelajar');
-// Route::get('/profil-alumni', function () {return view('Profil Alumni.index');})->name('profilalumni');
-// Route::get('/pengumuman', function () {return view('Pengumuman.index');})->name('pengumuman');
 
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('logins');
@@ -27,7 +30,7 @@ Route::post('/register', [AuthController::class, 'register'])->name('registers')
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Rute public untuk menampilkan daftar kelas
-Route::get('/kelas-belajar', [KelasController::class, 'showPublic'])->name('kelas');
+Route::get('/kelas', [KelasController::class, 'showPublic'])->name('kelas');
 
 // Rute public untuk menampilkan daftar galeri (Perbaikan: URL dan Namespace Nama Route)
 Route::get('/galeri', [GaleriController::class, 'showPublic'])->name('galeri');
@@ -40,6 +43,9 @@ Route::get('/profil-alumni', [ProfilAlumniController::class, 'showPublic'])->nam
 
 // Rute public untuk menampilkan daftar pengumuman
 Route::get('/pengumuman', [PengumumanController::class, 'showPublic'])->name('pengumuman');
+
+// Rute public untuk menampilkan daftar kategori
+Route::get('/kategori', [KategoriController::class, 'showPublic'])->name('kategori');
 
 // Rute-rute yang dilindungi (admin)
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
@@ -97,13 +103,41 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     Route::patch('/pengumuman/{pengumuman}', [PengumumanController::class, 'update']);
     Route::delete('/pengumuman/{pengumuman}', [PengumumanController::class, 'destroy'])->name('admin.pengumuman.destroy');
 
+    // CRUD Kategori
+    Route::get('/kategori', [KategoriController::class, 'index'])->name('admin.kategori.index');
+    Route::get('/kategori/create', [KategoriController::class, 'create'])->name('admin.kategori.create');
+    Route::post('/kategori', [KategoriController::class, 'store'])->name('admin.kategori.store');
+    Route::get('/kategori/{kategori}', [KategoriController::class, 'show'])->name('admin.kategori.show');
+    Route::get('/kategori/{kategori}/edit', [KategoriController::class, 'edit'])->name('admin.kategori.edit');
+    Route::put('/kategori/{kategori}', [KategoriController::class, 'update'])->name('admin.kategori.update');
+    Route::patch('/kategori/{kategori}', [KategoriController::class, 'update']); // Duplikat dari put, sebaiknya dihapus
+    Route::delete('/kategori/{kategori}', [KategoriController::class, 'destroy'])->name('admin.kategori.destroy');
+
+    // Daftar Pemesanan
+    Route::get('/daftar_pemesanan', [DaftarPemesananController::class, 'index'])->name('admin.daftar_pemesanan.index');
+    Route::post('/daftar_pemesanan/{pesanKelas}/approve', [DaftarPemesananController::class, 'approve'])->name('admin.daftar_pemesanan.approve'); // Ubah nama route
+    Route::post('/daftar_pemesanan/{pesanKelas}/cancel', [DaftarPemesananController::class, 'cancel'])->name('admin.daftar_pemesanan.cancel'); // Ubah nama route
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
 });
 
+
+
 // Rute-rute yang dilindungi (user)
-Route::middleware(['auth', 'role:user'])->group(function () {
-    Route::get('/user/profile', function () {
-        return view ('users.dashboard');
-    })->name('user.profile');
+Route::middleware(['auth', 'role:user'])->prefix('user')->group(function () {
+    Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('user.dashboard');
 });
+
+//CRUD Pesan Kelas (User)
+    Route::get('/pesan_kelas', [UserPesanKelasController::class, 'index'])->name('user.pesan_kelas.index');
+    Route::get('/pesan_kelas/create', [UserPesanKelasController::class, 'create'])->name('user.pesan_kelas.create');
+    Route::post('/pesan_kelas', [UserPesanKelasController::class, 'store'])->name('user.pesan_kelas.store');
+    Route::get('/pesan_kelas/{pesanKelas}', [UserPesanKelasController::class, 'show'])->name('user.pesan_kelas.show');
+    Route::delete('/pesan_kelas/{pesanKelas}', [UserPesanKelasController::class, 'destroy'])->name('user.pesan_kelas.destroy');
+
+    // Edit Pesan Kelas (User) - Hanya bisa edit jika status "pending"
+    Route::get('/pesan_kelas/{pesanKelas}/edit', [UserPesanKelasController::class, 'edit'])->name('user.pesan_kelas.edit');
+    Route::put('/pesan_kelas/{pesanKelas}', [UserPesanKelasController::class, 'update'])->name('user.pesan_kelas.update');
+    Route::post('/pesan_kelas/{pesan_kelas}/batalkan', [UserPesanKelasController::class, 'batalkan'])->name('user.pesan_kelas.batalkan');
+
+    Route::get('/profile/{user}', [UserController::class, 'profile'])->name('profile.show');

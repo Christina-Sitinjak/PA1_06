@@ -10,39 +10,22 @@
         }
 
         .main-wrapper {
-            padding: 20px 30px 30px 260px; /* Sesuaikan dengan lebar sidebar */
-            min-height: 100vh;
-            box-sizing: border-box;
+            padding: 20px 30px 30px 260px; /* space for sidebar */
         }
 
         .card {
-            height: 100%;
+            margin-top: 1rem;
         }
 
         .card-header {
             background-color: #e3f2fd;
             font-weight: bold;
-            font-size: 1.25rem;
+            font-size: 1.2rem;
             color: #333;
         }
 
         .form-label {
             font-weight: 500;
-        }
-
-        .btn-primary {
-            background-color: #0d6efd;
-            border: none;
-        }
-
-        .btn-secondary {
-            background-color: #6c757d;
-            border: none;
-        }
-
-        .btn-primary:hover,
-        .btn-secondary:hover {
-            opacity: 0.9;
         }
     </style>
 </head>
@@ -65,28 +48,39 @@
                     </div>
                 @endif
 
-                <form action="{{ route('admin.kelas.store') }}" method="POST">
+                <form action="{{ route('admin.kelas.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="mb-3">
-                        <label for="nama_kelas" class="form-label">Nama Kelas</label>
-                        <input type="text" class="form-control" id="nama_kelas" name="nama_kelas" value="{{ old('nama_kelas') }}">
+                        <label for="kategori_id" class="form-label">Kategori</label>
+                        <select class="form-select" id="kategori_id" name="kategori_id" required>
+                            <option value="">Pilih Kategori</option>
+                            @foreach ($semua_kategori as $kategori)
+                                <option value="{{ $kategori->kategori_id }}" {{ old('kategori_id') == $kategori->kategori_id ? 'selected' : '' }}>{{ $kategori->nama_kategori }}</option>
+                            @endforeach
+                        </select>
                     </div>
                     <div class="mb-3">
-                        <label for="masa_belajar" class="form-label">Masa Belajar (Bulan)</label>
-                        <input type="number" class="form-control" id="masa_belajar" name="masa_belajar" value="{{ old('masa_belajar') }}">
+                        <label for="nama_kelas" class="form-label">Nama Kelas</label>
+                        <input type="text" class="form-control" id="nama_kelas" name="nama_kelas" value="{{ old('nama_kelas') }}" required>
                     </div>
                     <div class="mb-3">
                         <label for="harga_pendaftaran" class="form-label">Harga Pendaftaran</label>
-                        <input type="number" step="0.01" class="form-control" id="harga_pendaftaran" name="harga_pendaftaran" value="{{ old('harga_pendaftaran') }}">
+                        <input type="number" step="0.01" class="form-control" id="harga_pendaftaran" name="harga_pendaftaran" value="{{ old('harga_pendaftaran') }}" required>
                     </div>
                     <div class="mb-3">
                         <label for="harga_kursus" class="form-label">Harga Kursus</label>
-                        <input type="number" step="0.01" class="form-control" id="harga_kursus" name="harga_kursus" value="{{ old('harga_kursus') }}">
+                        <input type="number" step="0.01" class="form-control" id="harga_kursus" name="harga_kursus" value="{{ old('harga_kursus') }}" required>
                     </div>
-                    <div class="d-flex justify-content-end">
-                        <button type="submit" class="btn btn-primary me-2">Simpan</button>
-                        <a href="{{ route('admin.kelas.index') }}" class="btn btn-secondary">Batal</a>
+                    <div class="mb-3">
+                        <label for="masa_belajar" class="form-label">Masa Belajar</label>
+                        <input type="number" class="form-control" id="masa_belajar" name="masa_belajar" value="{{ old('masa_belajar') }}" required>
                     </div>
+                    <div class="mb-3">
+                        <label for="stok" class="form-label">Stok</label>
+                        <input type="number" class="form-control" id="stok" name="stok" value="{{ old('stok') }}" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                    <a href="{{ route('admin.kelas.index') }}" class="btn btn-secondary">Batal</a>
                 </form>
             </div>
         </div>

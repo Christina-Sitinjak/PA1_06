@@ -82,7 +82,7 @@
                     </div>
 
                     <button type="submit" class="btn btn-primary">Update</button>
-                    <a href="{{ route('admin.pengajar.index') }}" class="btn btn-secondary">Batal</a>
+                    <a href="{{ route('admin.pengajar.index') }}" class="btn btn-secondary">Cancel</a>
                 </form>
             </div>
         </div>

@@ -21,7 +21,7 @@
 
     <section id="jadwal-belajar" class="jadwal-belajar">
         <h2><span>Jadwal</span> Belajar</h2>
-        <div class="content">
+        <div class="jadwal-content">
             <table>
                 <tr>
                     <th>PROGRAM</th>
@@ -30,6 +30,11 @@
                 </tr>
                 <tr>
                     <td>PRIMARY</td>
+                    <td>13.45 – 15.00</td>
+                    <td>13.45 – 15.00</td>
+                </tr>
+                <tr>
+                    <td>ELEMENTARY</td>
                     <td>13.45 – 15.00</td>
                     <td>13.45 – 15.00</td>
                 </tr>
@@ -53,6 +58,68 @@
             </table>
         </div>
     </section>
+
+    <style>
+
+        .jadwal-content {
+            max-width: 800px;
+            margin: auto;
+            background-color: #f5f5f5; /* Latar konten soft */
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 8px 24px rgba(165, 42, 42, 0.3); /* shadow coklat susu */
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #fffaf5; /* warna putih dengan sedikit coklat susu */
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        th {
+            background-color: #d2b48c; /* Coklat susu untuk header */
+            color: #5c4033; /* Coklat tua untuk teks */
+            padding: 15px;
+            text-align: center;
+            font-size: 18px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        td {
+            padding: 14px 20px;
+            text-align: center;
+            color: #5c4033;
+            font-size: 16px;
+            border-bottom: 1px solid #e0c9a6;
+        }
+
+        tr:nth-child(even) td {
+            background-color: #fdf7f0; /* Baris genap warna lebih terang */
+        }
+
+        tr:hover td {
+            background-color: #ecd9c6; /* Hover warna lembut */
+            color: #3e2c23;
+            transition: 0.3s;
+        }
+
+        .private-class td {
+            background-color: #f1e0c7; /* Private class beda warna */
+            font-weight: bold;
+            color: #4e342e;
+            font-size: 17px;
+            border: none;
+        }
+
+        /* Untuk transisi yang lebih halus */
+        th, td {
+            transition: background-color 0.3s, color 0.3s;
+        }
+    </style>
+
 
     <!-- Footer start -->
     @include('layout.footer')

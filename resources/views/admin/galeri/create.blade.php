@@ -48,7 +48,7 @@
 </head>
 <body>
     @include('admin.sidebar')
-
+    @include('admin.navbar')
     <div class="main-wrapper">
         <div class="card shadow">
             <div class="card-header">

@@ -9,13 +9,20 @@ class Kelas extends Model
 {
     use HasFactory;
 
-    protected $table = 'kelas'; // Optional, jika nama tabel berbeda dengan konvensi (lowercase, plural dari nama model)
-    protected $primaryKey = 'kelas_id'; // Jika nama primary key bukan 'id' 
-    public $timestamps = true; // Secara default true. Jika tidak ingin menggunakan timestamps, set ke false
+    protected $table = 'kelas';
+    protected $primaryKey = 'kelas_id';
     protected $fillable = [
+        'kategori_id',
         'nama_kelas',
-        'masa_belajar',
         'harga_pendaftaran',
         'harga_kursus',
+        'masa_belajar',
+        'stok'
     ];
+
+    // Relasi ke model Kategori (One to Many Inverse)
+    public function kategori()
+    {
+        return $this->belongsTo(Kategori::class, 'kategori_id', 'kategori_id');
+    }
 }

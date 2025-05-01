@@ -97,7 +97,7 @@
                     </div>
                     <div class="d-flex justify-content-end">
                         <button type="submit" class="btn btn-update me-2">Update</button>
-                        <a href="{{ route('admin.profil_alumni.index') }}" class="btn btn-cancel">Batal</a>
+                        <a href="{{ route('admin.profil_alumni.index') }}" class="btn btn-cancel">Cancel</a>
                     </div>
                 </form>
             </div>

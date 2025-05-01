@@ -36,7 +36,7 @@ body {
 }
 .navbar {
     display: flex;
-    justify-content: space-between;
+    justify-content: center; /* Pusatkan kontainer utama */
     align-items: center;
     padding: 1.4rem 7%;
     background-color: rgba(1, 1, 1, 0.8);
@@ -48,21 +48,36 @@ body {
     z-index: 999;
 }
 
+.navbar-container {
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* --- Kiri: Logo + Teks --- */
+.navbar-left {
+    display: flex;
+    align-items: center;
+}
+
 .navbar img {
-    width: 70px; /* Ukuran gambar logo */
+    width: 70px;
     height: 70px;
-    border-radius: 70%; /* Membuat logo berbentuk bulat */
-    margin-right: 5px; /* Jarak antara logo dan teks */
+    border-radius: 70%;
+    margin-right: 10px;
 }
 
 .navbar-logo {
     display: flex;
-    align-items: center; /* Membuat teks sejajar dengan logo */
+    align-items: center;
     font-size: 2rem;
     font-weight: 700;
     color: #fff;
     font-style: italic;
-    text-decoration: none; /* Menghilangkan garis bawah pada link */
+    text-decoration: none;
+    margin-right: 30px; /* Tambah jarak ke navbar-nav */
 }
 
 .navbar-logo span {
@@ -70,16 +85,19 @@ body {
     margin-right: 5px;
 }
 
+/* --- Tengah: Navigasi --- */
 .navbar-nav {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
+    gap: 1.4rem;
 }
 
 .navbar-nav a {
     color: #fff;
     font-size: 1.4rem;
-    margin: 0 1rem;
     text-decoration: none;
+    position: relative;
 }
 
 .navbar-nav a:hover {
@@ -99,6 +117,26 @@ body {
     transform: scaleX(0.5);
 }
 
+/* --- Kanan: Pemesanan Kelas --- */
+.navbar-right {
+    margin-left: auto;
+}
+
+.navbar-right a {
+    color: #fff;
+    font-size: 1.4rem;
+    font-weight: bold;
+    text-decoration: none;
+    padding: 6px 12px;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+
+.navbar-right a:hover {
+    color: var(--primary);
+}
+
+/* Tambahan untuk ikon atau tombol ekstra jika diperlukan */
 .navbar-extra a {
     color: #fff;
     margin: 0 0.5rem;
@@ -106,6 +144,25 @@ body {
 
 .navbar-extra a:hover {
     color: var(--primary);
+}
+
+/* Responsif */
+@media (max-width: 768px) {
+    .navbar-container {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .navbar-nav {
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+    }
+
+    .navbar-right {
+        align-self: flex-end;
+        margin-top: 10px;
+    }
 }
 
 
@@ -194,7 +251,15 @@ body {
     color: var(--primary);
 }
 
+@media (max-width: 768px) {
+    .about {
+        text-align: center;
+    }
 
+    .about {
+        text-align: center;
+    }
+}
 .about .row{
     display: flex;
 }
@@ -594,14 +659,7 @@ tr:hover {
     color: white;
 }
 
-.private-class {
-    background-color: #f9f9f9; /* Warna latar belakang */
-    font-size: 18px;
-    font-weight: bold;
-    text-align: center;
-    color: #333;
-    border-top: 2px solid #4CAF50;
-}
+
 
 /* Efek hover untuk Private Class */
 .private-class:hover {

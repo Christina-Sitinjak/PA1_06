@@ -51,7 +51,7 @@
     <div class="main-wrapper">
         <div class="card shadow">
             <div class="card-header">
-                Tambah Profil Alumni
+                Tambah Profil Alumni Baru
             </div>
             <div class="card-body">
                 {{-- Tampilkan error validasi jika ada --}}

@@ -11,23 +11,37 @@
         }
 
         .main-wrapper {
-            padding: 20px 30px 30px 260px; /* space for sidebar */
+            padding: 20px 30px 30px 260px; /* space for sidebar on left */
         }
 
         .card {
             margin-top: 1rem;
+            border: none;
+            border-radius: 12px;
         }
-
+        .card-header .btn {
+            margin-left: auto;
+        }
         .card-header {
             background-color: #e3f2fd;
             font-weight: bold;
             font-size: 1.2rem;
             color: #333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
         }
 
-        .card-header .btn {
-            margin-left: auto;
+        .card-body {
+            padding: 1.5rem;
         }
+
+        .table th, .table td {
+            vertical-align: middle !important;
+            text-align: center;
+        }
+
 
         .btn-edit {
             background-color: #28a745;
@@ -39,18 +53,8 @@
             color: white;
         }
 
-        .btn-edit:hover,
-        .btn-hapus:hover {
+        .btn-edit:hover, .btn-hapus:hover {
             opacity: 0.9;
-        }
-
-        th, td {
-            vertical-align: middle !important;
-            text-align: center;
-        }
-
-        .table {
-            font-size: 0.95rem;
         }
 
         .table-responsive {
@@ -75,14 +79,16 @@
                 @endif
 
                 <div class="table-responsive">
-                    <table class="table table-bordered align-middle text-center">
+                    <table class="table table-bordered">
                         <thead class="table-light">
                             <tr>
                                 <th>ID</th>
+                                <th>Kategori</th>
                                 <th>Nama Kelas</th>
-                                <th>Masa Belajar</th>
                                 <th>Harga Pendaftaran</th>
                                 <th>Harga Kursus</th>
+                                <th>Masa Belajar</th>
+                                <th>Stok</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -90,19 +96,21 @@
                             @foreach($kelas as $kelasItem)
                                 <tr>
                                     <td>{{ $kelasItem->kelas_id }}</td>
+                                    <td>{{ $kelasItem->kategori->nama_kategori }}</td>
                                     <td>{{ $kelasItem->nama_kelas }}</td>
-                                    <td>{{ $kelasItem->masa_belajar }} Bulan</td>
-                                    <td>Rp. {{ number_format($kelasItem->harga_pendaftaran, 0, ',', '.') }}</td>
-                                    <td>Rp. {{ number_format($kelasItem->harga_kursus, 0, ',', '.') }}</td>
+                                    <td>{{ $kelasItem->harga_pendaftaran }}</td>
+                                    <td>{{ $kelasItem->harga_kursus }}</td>
+                                    <td>{{ $kelasItem->masa_belajar }}</td>
+                                    <td>{{ $kelasItem->stok }}</td>
                                     <td>
                                         <div class="d-flex justify-content-center gap-2">
-                                            <a href="{{ route('admin.kelas.edit', $kelasItem->kelas_id) }}" class="btn btn-sm btn-edit d-flex align-items-center">
+                                            <a href="{{ route('admin.kelas.edit', $kelasItem->kelas_id) }}" class="btn btn-sm btn-edit">
                                                 <i class="bi bi-pencil-square me-1"></i> Edit
                                             </a>
                                             <form action="{{ route('admin.kelas.destroy', $kelasItem->kelas_id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus kelas ini?')">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-sm btn-hapus d-flex align-items-center">
+                                                <button type="submit" class="btn btn-sm btn-hapus">
                                                     <i class="bi bi-trash me-1"></i> Hapus
                                                 </button>
                                             </form>
@@ -113,11 +121,12 @@
                         </tbody>
                     </table>
                 </div>
-
             </div>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
+
 </html>
